@@ -1,3 +1,6 @@
+#
+!*.*
+
 # Compiled Object files
 *.slo
 *.lo
@@ -26,7 +29,6 @@
 *.exe
 *.out
 *.app
-*
 
 # PDF
 *.pdf

@@ -30,14 +30,29 @@ node* findNextNode(int pstart,int istart,int size)
 void Preorder(node *p)
 {
     //fill you code 
+    if(p){
+       std::cout << p->s << ' ';
+       Preorder(p->left);
+       Preorder(p->right);
+    }
 }
 void Inorder(node *p)
 {
     //fill you code 
+    if(p){
+        Inorder(p->left);
+        std::cout << p->s << ' ';
+        Inorder(p->right);
+    }
 }
 void Postorder(node *p)
 {
 	//fill you code  
+    if(p){
+        Postorder(p->left);
+        Postorder(p->right);
+        std::cout << p->s << ' ';
+    }
 	delete p;
 }
 

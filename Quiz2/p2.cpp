@@ -16,14 +16,10 @@ namespace oop{
        return ptr;
 	}
     Node* pop(Node *top){
-        if(top){
-            Node *ptr = top->next;
-            delete top;
-            return ptr;
-        } else {
-            return top;
-        }
-	}
+        Node *ptr = top->next;
+        delete top;
+        return ptr;
+    }
     void print(Node *top ){ 
      //Output specification: top->space->top->space->¡K¡K 
      //std::cout<<top<<" "; //show example

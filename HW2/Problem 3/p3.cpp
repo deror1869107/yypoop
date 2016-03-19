@@ -6,16 +6,16 @@ using namespace std;
 
 int main()
 {
-    int m, n;
+    long long int m, n;
     cin >> m >> n;
-    map<string, int> menu;
+    map<string, long long int> menu;
     string str;
-    int dollar_value;
+    long long int dollar_value;
     for(int i = 0; i < m; ++i){
         cin >> str >> dollar_value;
         menu[str] = dollar_value;        
     }
-    int total;
+    long long int total;
     for(int i = 0; i < n; ++i){
         total = 0;
         cin >> str;

@@ -12,7 +12,10 @@ int main()
         if(cin.eof()){
             break;
         }
-        if(cin.fail() || isalpha(cin.peek())){
+        while(cin.peek() == ' '){
+            cin.ignore(1, '\n');
+        }
+        if(cin.fail() || cin.peek() != '\n'){
             cout << "not a number!" << endl;
             cin.clear();
             cin.ignore(10000, '\n');

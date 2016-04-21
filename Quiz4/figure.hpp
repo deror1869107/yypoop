@@ -9,7 +9,7 @@ namespace figure{
         public:
             BasePoint(int px, int py):x(px),y(py){}
             virtual ~BasePoint(){}
-            virtual void settype(string s){
+            void settype(string s){
             	type = s;
 			}
             virtual void info(){
@@ -36,7 +36,7 @@ namespace figure{
     class Square: public Figure1P {
         public:
             Square(int px,int py, int _p1):Figure1P(px, py, _p1){
-            	BasePoint::settype("square");
+            	settype("square");
 			}
             void info(){
             	Figure1P::info();
@@ -57,7 +57,7 @@ namespace figure{
     class Rectangle: public Figure2P {
         public:
             Rectangle(int px,int py, int _p1, int _p2):Figure2P(px, py, _p1, _p2){
-            	BasePoint::settype("rectangle");
+            	settype("rectangle");
 			}
             void info(){
             	Figure2P::info();

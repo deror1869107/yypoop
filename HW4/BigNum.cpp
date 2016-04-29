@@ -25,15 +25,20 @@ BigNum::BigNum(int const n)
 BigNum::BigNum(std::string const &n)
 {
     sign = 1; //Fix Bug
+    size_t nonzero = 0;
     if(n.front() == '-'){
-        size = n.size() - 1;
         sign = -1;
-    } else {
-        size = n.size();
+        nonzero = 1;
     }
-    for(int i = 0; i < size; ++i){
-        num[i] = n[n.size() - 1 - i] - '0';
+    for(;nonzero < n.size(); ++nonzero){
+        if(n[nonzero] != '0') break;
     }
+    std::string s = n.substr(nonzero);
+    for(size_t i = 0; i < s.size(); ++i){
+        num[i] = s[s.size() - 1 - i] - '0';
+    }
+    size = std::max(1, (int)s.size());
+    if(size == 1 && num[0] == 0) sign = 1;
 }
 
 BigNum BigNum::operator+(const BigNum &n) const
@@ -64,6 +69,7 @@ BigNum BigNum::operator-(const BigNum &n) const
     BigNum o;
     if(sign == n.sign){
         if(abs(*this) >= abs(n)){
+            o.sign = sign; // Bug
             int borrow = 0;
             for(int i = 0; i < size; ++i){
                 o.num[i] = num[i] - n.num[i] - borrow;
@@ -77,6 +83,7 @@ BigNum BigNum::operator-(const BigNum &n) const
             o.size = MAX_LENGTH;
             while(!o.num[--o.size] && o.size > 0){}
             ++o.size;
+            if(o.size == 1 && o.num[0] == 0) o.sign = 1;
             return o;
         } else return (-n) - (-(*this));
     } else return *this + (-n);

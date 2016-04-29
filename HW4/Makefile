@@ -13,3 +13,7 @@ test1:
 
 test:
 	g++ $(CXXFLAGS) test.cpp BigNum.cpp -o main
+	
+clean:
+	-rm main
+	-rm -rf main.dSYM

@@ -21,6 +21,7 @@ class BigNum{
         bool operator<(const BigNum&) const;
         bool operator>=(const BigNum&) const;
         friend BigNum abs(const BigNum&);
+        void trim();
 	private:
 
 //Add data feild here to save the data of BigNum.

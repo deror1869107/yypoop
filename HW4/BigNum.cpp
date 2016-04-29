@@ -37,8 +37,7 @@ BigNum::BigNum(std::string const &n)
     for(size_t i = 0; i < s.size(); ++i){
         num[i] = s[s.size() - 1 - i] - '0';
     }
-    size = std::max(1, (int)s.size());
-    if(size == 1 && num[0] == 0) sign = 1;
+    this->trim();
 }
 
 BigNum BigNum::operator+(const BigNum &n) const
@@ -80,10 +79,7 @@ BigNum BigNum::operator-(const BigNum &n) const
                     borrow = 0;
                 }
             }
-            o.size = MAX_LENGTH;
-            while(!o.num[--o.size] && o.size > 0){}
-            ++o.size;
-            if(o.size == 1 && o.num[0] == 0) o.sign = 1;
+            o.trim();
             return o;
         } else return (-n) - (-(*this));
     } else return *this + (-n);
@@ -140,9 +136,16 @@ BigNum BigNum::operator*(const BigNum &n) const
         carry = o.num[o.size] / 10;
         o.num[o.size] %= 10;
     }
-    while(!o.num[--o.size] && o.size > 0){}
-    ++o.size;
+    o.trim();
     return o;
+}
+
+void BigNum::trim()
+{
+    size = MAX_LENGTH;
+    while(!num[--size] && size > 0){}
+    ++size;
+    if(size == 1 && num[0] == 0) sign = 1;
 }
 
 BigNum& BigNum::operator++()

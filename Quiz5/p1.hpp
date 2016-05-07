@@ -3,7 +3,7 @@ const int size=10;
 bool cmp(const int&, const int&);
 void sort(int arr[]){
 	//add here
-	std::sort(arr, arr + 10, cmp);
+	std::sort(arr, arr + size, cmp);
 }
 
 bool cmp(const int& lhs, const int& rhs)

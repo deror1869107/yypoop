@@ -25,36 +25,37 @@ void Stack<Type, MaxSize>::push(Type n)
 {
 	if(!full()){
 		arr[idx++] = n;
-	    if(full()){
-            std::cout << "Stack is already full." << std::endl;
-	    }
-    }
+	} else {
+		std::cout << "Stack is already full." << std::endl;
+	}
 }
 
 template<class Type, int MaxSize>
 Type Stack<Type, MaxSize>::pop()
 {
-    return arr[--idx];
+	return arr[--idx];
 }
 
 template<class Type, int MaxSize>
 bool Stack<Type, MaxSize>::empty()
 {
-    return (idx == 0);
+	return (idx == 0);
 }
 
 template<class Type, int MaxSize>
 bool Stack<Type, MaxSize>::full()
 {
-    return idx == MaxSize;
+	return (idx == MaxSize);
 }
 
 template<class Type, int MaxSize>
 void Stack<Type, MaxSize>::dump()
 {
-    while(!empty()){
-        std::cout << pop() << ' ';
-    }
-    std::cout << std::endl;
+	int now = idx;
+	while(now){
+		std::cout << arr[--now] << ' ';
+	}
+	std::cout << std::endl;
 }
+
 

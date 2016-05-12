@@ -149,13 +149,9 @@ public:
         itemList.push_back(ptr);
     }
 
-    void removeItem(int idx)
+    void removeItem(DessertItem *ptr)
     {
-        auto it = itemList.begin();
-        while(idx--){
-            it++;
-        }
-        itemList.erase(it);
+        itemList.remove(ptr);
     }
 
     int numberOfItems() const
@@ -185,14 +181,15 @@ ostream &operator<<(ostream &output, Checkout &checkout){
     double cost = 0;
     for(auto dessert:checkout.itemList){
         cost += dessert->getCost();
-        cout << setw(50) << left << dessert->getName() << right << dessert->getCost() << endl;
+        cout << setw(40) << left << dessert->getName() << setw(10) << right << dessert->getCost() << endl;
         cout << dessert->getDetails();
     }
     output << endl;
     output << "------------------------------" << endl;
-    output << setw(50) << left << "Cost" << right << cost << endl;
-    output << setw(50) << left << "Tax" << right << cost / 20 << endl;
+    double tax = cost * 0.05;
+    output << setw(40) << left << "Cost" << setw(10) << right << cost << endl;
+    output << setw(40) << left << "Tax" << setw(10) << right << tax << endl;
     output << endl;
-    output << setw(50) << left << "Total cost" << right << cost * (1.05);
+    output << setw(40) << left << "Total cost" << setw(10) << right << cost + tax;
     return output;
 }

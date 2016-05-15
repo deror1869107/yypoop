@@ -401,7 +401,20 @@ auto AVLTree<key_type, mapped_type, key_compare>::iterator::operator++(void) -> 
 		return (*this);
 
 	// TODO: Find the next node in an in-order manner.
-
+	key_compare Comp;
+	Node *Next;
+	if(CurrentNode->Right == nullptr){
+		Next = CurrentNode->Parent;
+		while(Next != nullptr && Comp((Next->Mapping).first, (CurrentNode->Mapping).first)){
+			Next = Next->Parent;
+		}
+	} else {
+		Next = CurrentNode->Right;
+		while(Next->Left != nullptr){
+			Next = Next->Left;
+		}
+	}
+	*this = iterator(Next);
 	return (*this);
 
 	}
@@ -418,7 +431,20 @@ auto AVLTree<key_type, mapped_type, key_compare>::iterator::operator--(void) -> 
 		return (*this);
 
 	// TODO: Find the previous node in an in-order manner.
-
+	key_compare Comp;
+	Node *Next;
+	if(CurrentNode->Left == nullptr){
+		Next = CurrentNode->Parent;
+		while(Next != nullptr && Comp((CurrentNode->Mapping).first, (Next->Mapping).first)){ //bug: it will execute when Next != nullptr
+			Next = Next->Parent;
+		}
+	} else {
+		Next = CurrentNode->Left;
+		while(Next->Right != nullptr){
+			Next = Next->Right;
+		}
+	}
+	*this = iterator(Next);
 	return (*this);
 
 	}
@@ -456,6 +482,15 @@ auto AVLTree<key_type, mapped_type, key_compare>::Node::Find(Node* Tree, const k
 	// TODO: Use Comp to find where it located.
 	//       You may want to take a look of the implementation of Insert.
 
+	// If the data shall be placed in left tree.
+	if(Comp(KeyToFind, CurrentNode->Mapping.first)){
+		return Find(CurrentNode->Left, KeyToFind, Comp);
+	}
+		// If the data shall be placed in right tree.
+ 	else if(Comp(CurrentNode->Mapping.first, KeyToFind)){
+		return Find(CurrentNode->Right, KeyToFind, Comp);
+	}
+	// Found.
 	return CurrentNode;
 
 	}
@@ -586,7 +621,12 @@ auto AVLTree<key_type, mapped_type, key_compare>::Node::RightRotate(Node* ThisNo
 
 	// TODO: Right rotate the tree and return the new root.
 	//       The height of modified trees should also be fixed accordingly.
-
+	Node* LeftNode = ThisNode->Left;
+	LeftNode->Parent = ThisNode->Parent;
+	ThisNode->Parent = LeftNode;
+	ThisNode->Left = LeftNode->Right;
+	LeftNode->Right = ThisNode;
+	ThisNode = LeftNode;
 	return ThisNode;
 
 	}
@@ -601,7 +641,12 @@ auto AVLTree<key_type, mapped_type, key_compare>::Node::LeftRotate(Node* ThisNod
 
 	// TODO: Left rotate the tree and return the new root.
 	//       The height of modified trees should also be fixed accordingly.
-
+	Node* RightNode = ThisNode->Right;
+	RightNode->Parent = ThisNode->Parent;
+	ThisNode->Parent = RightNode;
+	ThisNode->Right = RightNode->Left;
+	RightNode->Left = ThisNode;
+	ThisNode = RightNode;
 	return ThisNode;
 
 	}

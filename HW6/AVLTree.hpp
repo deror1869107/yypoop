@@ -483,7 +483,7 @@ auto AVLTree<key_type, mapped_type, key_compare>::Node::Find(Node* Tree, const k
 	//       You may want to take a look of the implementation of Insert.
 
 	// If the data shall be placed in left tree.
-	if(Comp(KeyToFind, CurrentNode->Mapping.first)){
+ 	if(Comp(KeyToFind, CurrentNode->Mapping.first)){
 		return Find(CurrentNode->Left, KeyToFind, Comp);
 	}
 		// If the data shall be placed in right tree.
@@ -625,7 +625,10 @@ auto AVLTree<key_type, mapped_type, key_compare>::Node::RightRotate(Node* ThisNo
 	LeftNode->Parent = ThisNode->Parent;
 	ThisNode->Parent = LeftNode;
 	ThisNode->Left = LeftNode->Right;
+	if(ThisNode->Left != nullptr) ThisNode->Left->Parent = ThisNode; //bug
 	LeftNode->Right = ThisNode;
+	ThisNode->Height = 1 + std::max(Node::HeightOf(ThisNode->Left), Node::HeightOf(ThisNode->Right));
+	LeftNode->Height = 1 + std::max(Node::HeightOf(LeftNode->Left), Node::HeightOf(LeftNode->Right));
 	ThisNode = LeftNode;
 	return ThisNode;
 
@@ -645,7 +648,10 @@ auto AVLTree<key_type, mapped_type, key_compare>::Node::LeftRotate(Node* ThisNod
 	RightNode->Parent = ThisNode->Parent;
 	ThisNode->Parent = RightNode;
 	ThisNode->Right = RightNode->Left;
+	if(ThisNode->Right != nullptr) ThisNode->Right->Parent = ThisNode;
 	RightNode->Left = ThisNode;
+	ThisNode->Height = 1 + std::max(Node::HeightOf(ThisNode->Left), Node::HeightOf(ThisNode->Right));
+	RightNode->Height = 1 + std::max(Node::HeightOf(RightNode->Left), Node::HeightOf(RightNode->Right));
 	ThisNode = RightNode;
 	return ThisNode;
 

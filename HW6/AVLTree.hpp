@@ -481,9 +481,12 @@ auto AVLTree<key_type, mapped_type, key_compare>::Node::Find(Node* Tree, const k
 
 	// TODO: Use Comp to find where it located.
 	//       You may want to take a look of the implementation of Insert.
-
-	// If the data shall be placed in left tree.
- 	if(Comp(KeyToFind, CurrentNode->Mapping.first)){
+	// Not Found.
+	if(CurrentNode == nullptr){ //bug
+		return CurrentNode;
+	}
+		// If the data shall be placed in left tree.
+	else if(Comp(KeyToFind, CurrentNode->Mapping.first)){
 		return Find(CurrentNode->Left, KeyToFind, Comp);
 	}
 		// If the data shall be placed in right tree.

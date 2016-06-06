@@ -26,7 +26,7 @@ private:
 class Cat: public Exec {
     void string_process(const vector<string> &cmd, string &text)
     {
-        if(cmd.size() <= 2){
+        if(cmd.size() <= 2 && cmd.back()[0] != '|'){
             cout << text;
         }
     }
@@ -134,17 +134,16 @@ private:
 
     void output(const vector<string> &cmd, const string &text)
     {
-        if(cmd.size() > 2){
-            string op = cmd[cmd.size() - 2];
-            if(op == ">"){
-                redirection(cmd.back(), text);
-            } else if(op == "|"){
-                pipeline(cmd.back(), text);
-            }
+        if(cmd.back()[0] == '|'){
+            string line_num = cmd.back();
+            line_num.erase(line_num.begin());
+            pipeline(line_num, text);
+        } else if(cmd.size() > 2 && cmd[cmd.size() - 2] == ">"){
+            redirection(cmd.back(), text);
         }
     }
 
-    void redirection(const string& filename, const string &text)
+    void redirection(const string &filename, const string &text)
     {
         fstream output;
         output.open(filename, fstream::out);
@@ -165,7 +164,9 @@ private:
 
 int main(int argc, char **argv)
 {
-    Shell shell(argv[1]);
-    shell.start();
+    if(argc > 1){
+        Shell shell(argv[1]);
+        shell.start();
+    }
     return 0;
 }
